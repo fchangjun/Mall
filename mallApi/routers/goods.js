@@ -1,16 +1,13 @@
 const KoaRouter = require("koa-router")
 const router = new KoaRouter({prefix:"/goods"})
-router.get('/',(ctx)=>{
-  ctx.body='获取商品'
-})
-
-router.post("/",(ctx)=>{
-  ctx.body="添加商品"
-})
-router.del("",ctx => {
-  ctx.body = "删除商品"
-})
-router.put("/",ctx =>{
-  ctx.body= '修改商品'
-})
+const {find,
+  create,
+  update,
+  putaway,
+  delete:del} = require('../controllers/goodsCtr.js')
+router.get('/',find)
+router.post('/',create)
+router.del('/:id',del)
+router.put('/:id',update)
+router.put('/:id/putaway',putaway)
 module.exports = router

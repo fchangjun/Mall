@@ -2,8 +2,11 @@ const banner = require("../db/model/bannerModel")
 class BannerCtr{
   // 查询轮播图列表
   async find(ctx){
-   let list = await banner.find()
-   ctx.body={code:0,list,msg:'查询ok'}
+   let {page = 1,pageSize = 2 } = ctx.query
+   console.log(ctx.query)
+   let count = await banner.count()
+   let list = await banner.find().skip((page-1)*pageSize).limit(Number(pageSize))
+   ctx.body={code:0,list,msg:'查询ok',count}
   }
   // 添加轮播图
   async create(ctx){

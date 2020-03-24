@@ -1,39 +1,40 @@
-const banner = require("../db/model/bannerModel")
-class BannerCtr{
-  // 查询轮播图列表
+const goods = require("../db/model/goodsModel")
+class GoodsCtr{
+  // 查询商品列表
   async find(ctx){
-   let list = await banner.find()
-   ctx.body={code:0,list,msg:'查询ok'}
+   let {page = 1 ,pageSize = 2} = ctx.query
+   let count = await goods.count()
+   let list = await goods.find().limit(Number(pageSize)).skip((page-1)*pageSize)
+   ctx.body={code:0,list,msg:'查询ok',count}
   }
-  // 添加轮播图
+  // 添加商品
   async create(ctx){
-    let {name,desc,path,link} = ctx.request.body 
-    let result = await banner.insertMany({name,desc,path,link})
-    if(!result){ ctx.throw(404,'轮播图添加失败')}
-    ctx.body ={code:0,msg:'轮播图添加成功'}
+    let {name,desc,path,link,stock,putaway,price,unit} = ctx.request.body 
+    let result = await goods.insertMany({name,desc,path,link,stock,putaway,price,unit})
+    if(!result){ ctx.throw(404,'商品添加失败')}
+    ctx.body ={code:0,msg:'商品添加成功'}
   }
   async update(ctx){
     let id= ctx.params.id
-    let {name,desc,path,link,publish=0} = ctx.request.body 
-    let result = await banner.findByIdAndUpdate(id,{name,desc,path,link,publish} )
-    if(!result){ ctx.throw(404,'轮播图修改失败')}
-    ctx.body={code:0,msg:'轮播图修改成功'}
+    let {name,desc,path,link,stock,putaway,price,unit} = ctx.request.body 
+    let result = await goods.findByIdAndUpdate(id,{name,desc,path,link,stock,putaway,price,unit} )
+    if(!result){ ctx.throw(404,'商品修改失败')}
+    ctx.body={code:0,msg:'商品修改成功'}
   }
   async delete(ctx){
     let id= ctx.params.id
-    let result =await  banner.findByIdAndDelete(id)
-    if(!result){ ctx.throw(404,'轮播图删除失败')}
-    ctx.body={code:0,msg:'轮播图删除成功'}
+    let result =await  goods.findByIdAndDelete(id)
+    if(!result){ ctx.throw(404,'商品删除失败')}
+    ctx.body={code:0,msg:'商品删除成功'}
   }
-  async publish(ctx){
+  async putaway(ctx){
     let id= ctx.params.id
-    let {publish} = ctx.request.body 
-    let result = await banner.findByIdAndUpdate(id,{publish} )
-    console.log(result)
-    if(!result){ ctx.throw(404,'轮播图修改失败')}
-    ctx.body={code:0,msg:'轮播图修改成功'}
+    let {putaway = 0} = ctx.request.body 
+    let result = await goods.findByIdAndUpdate(id,{putaway} )
+    if(!result){ ctx.throw(404,'商品修改失败')}
+    ctx.body={code:0,msg:'商品修改成功'}
   }
   
   
 }
-module.exports =new BannerCtr()
+module.exports =new GoodsCtr()
