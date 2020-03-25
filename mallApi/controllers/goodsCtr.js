@@ -4,13 +4,14 @@ class GoodsCtr{
   async find(ctx){
    let {page = 1 ,pageSize = 2} = ctx.query
    let count = await goods.count()
-   let list = await goods.find().limit(Number(pageSize)).skip((page-1)*pageSize)
+   let list = await goods.find().limit(Number(pageSize)).skip((page-1)*pageSize).populate('kind',"kindName -_id")
    ctx.body={code:0,list,msg:'查询ok',count}
   }
   // 添加商品
   async create(ctx){
-    let {name,desc,path,link,stock,putaway,price,unit} = ctx.request.body 
-    let result = await goods.insertMany({name,desc,path,link,stock,putaway,price,unit})
+    let {name,desc,path,link,stock,putaway,price,unit,kind} = ctx.request.body 
+    console.log(kind)
+    let result = await goods.insertMany({name,desc,path,link,stock,putaway,price,unit,kind})
     if(!result){ ctx.throw(404,'商品添加失败')}
     ctx.body ={code:0,msg:'商品添加成功'}
   }

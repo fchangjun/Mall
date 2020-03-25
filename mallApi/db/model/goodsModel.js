@@ -10,6 +10,7 @@ let goodsScheme = mongoose.Schema({
 		putaway:{type:Number,default:-1},
 		price:{type:Number,default:0},
 		unit:{type:String,default:"件"},
+		kind:{type:mongoose.Schema.Types.ObjectId,ref:"kinds"},
 		createTime: {
 				type: Date,
 				default: new Date().getTime()
