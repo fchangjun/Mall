@@ -1,13 +1,13 @@
 const KoaRouter = require("koa-router")
 const router = new KoaRouter({prefix:"/goods"})
 const {find,
-  finOne.
+  findOneById,
   create,
   update,
   putaway,
   delete:del} = require('../controllers/goodsCtr.js')
 router.get('/',find)
-router.get('/:id',findOne)
+router.get('/:id',findOneById)
 router.post('/',create)
 router.del('/:id',del)
 router.put('/:id',update)

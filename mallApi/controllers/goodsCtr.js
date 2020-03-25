@@ -8,7 +8,7 @@ class GoodsCtr{
    ctx.body={code:0,list,msg:'查询ok',count}
   }
   // 查找某一个
-  async finOne(ctx){
+  async findOneById(ctx){
     let id= ctx.params.id
     let result = await goods.find({_id:id})
     if(!result){ ctx.throw(404,'商品获取失败')}
