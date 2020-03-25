@@ -7,6 +7,13 @@ class GoodsCtr{
    let list = await goods.find().limit(Number(pageSize)).skip((page-1)*pageSize).populate('kind',"kindName -_id")
    ctx.body={code:0,list,msg:'查询ok',count}
   }
+  // 查找某一个
+  async finOne(ctx){
+    let id= ctx.params.id
+    let result = await goods.find({_id:id})
+    if(!result){ ctx.throw(404,'商品获取失败')}
+    ctx.body={code:0,msg:'商品获取成功'}
+  }
   // 添加商品
   async create(ctx){
     let {name,desc,path,link,stock,putaway,price,unit,kind} = ctx.request.body 
