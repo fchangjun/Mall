@@ -9,9 +9,9 @@ const {find,
   putaway,
   delete:del} = require('../controllers/goodsCtr.js')
 router.get('/',authToken,authPermission,find)
-router.get('/:id',authToken,findOneById)
-router.post('/',authToken,create)
-router.del('/:id',authToken,del)
-router.put('/:id',authToken,update)
-router.put('/:id/putaway',authToken,putaway)
+router.get('/:id',authToken,authPermission,findOneById)
+router.post('/',authToken,authPermission,create)
+router.del('/:id',authToken,authPermission,del)
+router.put('/:id',authToken,authPermission,update)
+router.put('/:id/putaway',authToken,authPermission,putaway)
 module.exports = router
