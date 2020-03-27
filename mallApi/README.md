@@ -68,3 +68,11 @@ ctx.verifyParams({
 }}
 ```
 # 云数据库 atlas
+
+# jwt  
+1. 用户登录创建token 并且写入 数据库然后返回
+2. 用户调用接口携带token 
+   a.验证token的合法性
+   b.验证token 和用户是否关联 未实现
+   c.除登录外其他的接口都需要token
+# 授权 permissions

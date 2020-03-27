@@ -1,4 +1,6 @@
 const admin = require("../db/model/adminModel")
+const {secret} = require("../config/config")
+const jsonWebToken = require("jsonwebtoken")
 class AdminCtr{
   async find(ctx){
    let adminList = await admin.find()
@@ -26,11 +28,13 @@ class AdminCtr{
     if(!result){ ctx.throw(404,'管理员删除失败')}
     ctx.body={code:0,msg:'管理员删除成功'}
   }
-  async findOne(ctx){
+  async login(ctx){
     let {userName,passWord} = ctx.request.body 
-    let result =await  admin.find({userName,passWord})
-    if(!result.length){ ctx.throw(404,'登录失败')}
-    ctx.body={code:0,msg:'登录成功'}
+    let userInfo =await  admin.findOne({userName,passWord})
+    console.log(typeof userInfo)
+    if(!userInfo){ ctx.throw(404,'登录失败')}
+    let token = jsonWebToken.sign({userInfo},secret,{expiresIn:"1d"})
+    ctx.body={code:0,msg:'登录成功',token}
   }
   
 }

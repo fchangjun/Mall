@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require("path")
-
 module.exports= (app)=>{
   let dirs = fs.readdirSync(path.join(__dirname,'./'))
   dirs.forEach(file => {
